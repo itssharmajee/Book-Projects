@@ -1,0 +1,17 @@
+{
+  "name": "book-projects",
+  "version": "1.0.0",
+  "description": "this is a book API",
+  "license": "ISC",
+  "author": "Gautam Kumar Sharma",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
+  }
+}
