@@ -5,6 +5,7 @@ export async function DBConfig() {
         console.log('db connected successfully');
     }).catch((err) => {
         console.log(err);
+        process.exit(1);
     })
 }
 

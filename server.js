@@ -2,9 +2,11 @@ import express from 'express';
 import dotenv from "dotenv"
 // dotenv.config({path:"./controllers/.env"});
 dotenv.config();
+import bookRouter from "./routes/book.route.js"
+
 
 import { DBConfig } from './database/db.js';
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Middlewares
@@ -16,8 +18,11 @@ await DBConfig()
 
 // normal routes
 app.get('/',(req,res)=>{
-    res.send(`Working perfectly`)
+    res.send(`Working perfectly`);
 })
+
+// Get book routes
+app.use('/api/v1/book',bookRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server is listening on port ${PORT}`);

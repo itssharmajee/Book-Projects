@@ -18,6 +18,10 @@ const bookSchema = new mongoose.Schema({
         min:[1000, "Year must be atleast 1000"],
         max:[new Date().getFullYear(),"Year cannot be in the future"]
     },
+    category:{
+        type:String,
+        required:[true,"category is required"],
+    },
     // createdAt:{
     //     type:Date,
     //     default:Date.now
