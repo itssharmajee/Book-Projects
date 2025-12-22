@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, loginUser } from '../controllers/user.controller.js';
+import { createUser, forgetPassword, loginUser } from '../controllers/user.controller.js';
 import { auth, roleBasedAccess } from '../middlewares/auth.middleware.js';
 
 const router = express.Router({ mergeParams: true });
@@ -17,5 +17,11 @@ router.get('/admin', auth, roleBasedAccess, (req, res) => {
     res.json({...req.user, admin:true})
 })
 
+router.post("/test",(req, res)=>{
+    console.log(req.file?.path);
+    
+    res.send("successfully file uploaded ")
+})
 
+router.post('/forget',auth,forgetPassword)
 export default router;

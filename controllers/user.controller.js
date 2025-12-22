@@ -131,3 +131,78 @@ export const loginUser = async (req, res) => {
         });
     }
 };
+
+// ================= FORGET USER PASSWORD ======================
+export const forgetPassword = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const { oldPassword, newPassword } = req.body;
+        if(!userId){
+            return res.status(400).json({
+                success: false,
+                message: "unAuth Access first login to change the Password"
+            });
+        }
+
+        // validate request body
+        if (!oldPassword || !newPassword || newPassword.trim().length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "New password cannot be empty"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters long"
+            });
+        }
+
+        if (oldPassword === newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Old password & new password cannot be same"
+            });
+        }
+
+        // find user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // match old password
+        const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "Incorrect old password, please try again!"
+            });
+        }
+
+        // hash new password
+        const hashPassword = await bcrypt.hash(
+            newPassword,
+            Number(process.env.SALT_SIZE)
+        );
+
+        user.password = hashPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully!"
+        });
+
+    } catch (err) {
+        console.error("Forget Password Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+};
