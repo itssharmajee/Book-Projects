@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 dotenv.config();
 import bookRouter from "./routes/book.route.js"
 import userRouter from "./routes/user.route.js"
+import imageRouter from "./routes/image.route.js"
 
 import { DBConfig } from './database/db.js';
 const PORT = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 // Get book routes
 app.use('/api/v1/book', bookRouter);
 app.use('/api/v1/user', userRouter);
+app.use('/image',imageRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
